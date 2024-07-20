@@ -22,15 +22,29 @@ const BlogCard = ({
   likes,
   date,
   intro,
+  updateLikes,
+  setUpdateLikes,
 }) => {
   // console.log(process.env.REACT_APP_BACKEND);
   const navigate = useNavigate();
 
-  const [like, setLike] = useState(false);
+  // const [like, setLikes] = useState(0);
+  // const [liked, setLiked] = useState(false);
+
+  const [isLiked, setLike] = useState(false);
+
+  // const handleLikes = () => {
+  //   if (liked) {
+  //     setLikes(like - 1);
+  //   } else {
+  //     setLikes(like + 1);
+  //   }
+  //   setLiked(!liked);
+  // };
 
   const handleLikes = async () => {
-    // console.log("clicked");
-    if (like === false) {
+    if (isLiked === false) {
+      // if (updateLikes === false) {
       const dataToDB = {
         id: id,
         title: title,
@@ -49,7 +63,8 @@ const BlogCard = ({
         .then((response) => {
           // console.log("Success:", response.data);
           // Redirect to the /blogs page
-          setLike(!like);
+          setLike(!isLiked);
+          setUpdateLikes(!updateLikes);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -74,7 +89,8 @@ const BlogCard = ({
         .then((response) => {
           // console.log("Success:", response.data);
           // Redirect to the /blogs page
-          setLike(!like);
+          setLike(!isLiked);
+          setUpdateLikes(!updateLikes);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -162,11 +178,33 @@ const BlogCard = ({
                   <Views views={views} />
                 </div>
                 <div className="col-5 p-0 d-inline">
-                  <Likes likes={likes} handleLikes={handleLikes} />
+                  <Likes
+                    isLiked={isLiked}
+                    // updateLikes={updateLikes}
+                    likes={likes}
+                    handleLikes={handleLikes}
+                  />
                 </div>
               </div>
             </div>
           </div>
+          {/* 
+          <div
+            className="my-4 cursor-pointer"
+            onClick={() => {
+              if (isUserLiked) setTotalLikes((prev) => prev - 1);
+              if (!isUserLiked) setTotalLikes((prev) => prev + 1);
+              setIsUserLiked(!isUserLiked);
+              toggleLikeHandler();
+            }}
+          >
+            {isUserLiked ? (
+              <FaHeart className="text-red-500" />
+            ) : (
+              <FaRegHeart className="text-[#3cbcb1]" />
+            )}
+          </div>
+          <p className="text-sm text-gray-400"> {totalLikes} Likes</p> */}
         </div>
       </div>
     </div>

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
 import axios from "./axiosConfig";
 import "../../style/blog/CreateBlog.css";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import NavBar from "../NavBar";
 
 // Component to Display Create Blog Form
 
 function CreateBlog() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -24,12 +25,14 @@ function CreateBlog() {
       title: "",
       category: "",
       intro: "",
-      image: "",
+      image: null,
       content: "",
     });
+    fileInputRef.current.value = "";
   };
 
   const handleChange = (evt) => {
+    console.log(formData);
     setFormData((prev) => ({
       ...prev,
       [evt.target.name]: evt.target.value,
@@ -67,17 +70,19 @@ function CreateBlog() {
       date: new Date(),
     };
 
+    console.log(dataToDB);
     const response2 = await axios.post("/blogs/new", dataToDB, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     // console.log(response2);
-    navigate("/blogs");
+    navigate("/blog");
   };
 
   return (
     <>
+      <NavBar />
       <div className="container">
         <div className="row">
           <h3 className="text-center createBlog pt-5 pb-1">Create Blog</h3>
@@ -148,16 +153,14 @@ function CreateBlog() {
                   id="image"
                   // value={}
                   name="image"
+                  ref={fileInputRef}
                   onChange={handleFileChange}
                   // value={}
                 />
               </div>
 
               <div className="form-group">
-                <label
-                  htmlFor="content"
-                  className="form-label custom-label my-3"
-                >
+                <label htmlFor="content" className="custom-label my-3">
                   Content
                 </label>
                 <ReactQuill

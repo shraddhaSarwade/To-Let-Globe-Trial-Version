@@ -13,11 +13,13 @@ import "../../style/blog/blogmain.css";
 import { Footer } from "../footer";
 import BlogContainer from "./BlogContainer";
 import CategoryContainer from "./CategoryContainer";
+import NavBar from "../NavBar";
 
 export const BlogMain = () => {
   return (
     // <Container className="blog-container">
     <>
+      <NavBar />
       <div className="insights container mt-4 text-center">
         <h2>To-Let Tales</h2>
         <p className="insightspara">

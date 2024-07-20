@@ -1,12 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const cookieSession = require("cookie-session");
 const mongoose = require("mongoose");
 const authRoute = require("./routes/auth");
 const bodyParser = require("body-parser");
-// const blogRoutes = require("./routes/blog");
-const contactRoute = require("./routes/contact");
+const contactRoute = require("./routes/contact.js");
 const propertyRoute = require("./routes/property");
 const path = require("path");
 const multer = require("multer");
@@ -34,14 +32,14 @@ mongoose
     console.log("Error connecting to the database..", err);
   });
 
-// Specfying Multer Storage to Cloudinary Storage Settings
+// Specifying Multer Storage to Cloudinary Storage Settings
 const upload = multer({ storage });
 
-//CORS Setup
+// CORS Setup
 app.use(
   cors({
     origin: true,
-    methods: "GET,POST,PUT,DELETE",
+    methods: "*",
     credentials: true,
   })
 );
@@ -56,7 +54,6 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      // secure: false, // Set to true if using HTTPS
       httpOnly: true, // Helps mitigate XSS attacks
       maxAge: 24 * 60 * 60 * 1000, // Session expires in 1 day
     },
@@ -83,7 +80,7 @@ app.post("/register", async (req, res) => {
   });
   await newUser.save();
 
-  //Adding the Session Variables for Session Tracking
+  // Adding the Session Variables for Session Tracking
   req.session.user_id = newUser._id;
   req.session.user_name = newUser.username;
   req.session.user_role = newUser.role;
@@ -93,7 +90,7 @@ app.post("/register", async (req, res) => {
       res.send("Error saving session");
     } else {
       console.log(req.session);
-      res.json({ isRegiter: true });
+      res.json({ isRegister: true });
     }
   });
 });
@@ -152,23 +149,24 @@ app.post("/createBlog/auth", async (req, res) => {
 
 // Route to create new blog
 app.post("/blogs/new", upload.single("image"), async (req, res) => {
+  // console.log(req.body);
   const dataWithCloudinaryImgUrl = { ...req.body, image: req.file.path };
   const newBlog = new Blog(dataWithCloudinaryImgUrl);
   await newBlog.save();
   res.send("success");
 });
 
-// Route to update views a Specfic blog
+// Route to update views of a Specific blog
 app.post("/blogs/updateViews/:id", async (req, res) => {
   const { id } = req.params;
-  const updatedBlog = await Blog.findByIdAndUpdate(id, req.body);
+  await Blog.findByIdAndUpdate(id, req.body);
   res.send("success");
 });
 
-// Route to Update the Likes of blog
+// Route to Update the Likes of a blog
 app.post("/blogs/updateLikes/:id", async (req, res) => {
   const { id } = req.params;
-  const updatedBlog = await Blog.findByIdAndUpdate(id, req.body);
+  await Blog.findByIdAndUpdate(id, req.body);
   res.send("success");
 });
 
@@ -184,10 +182,14 @@ app.post("/getuserdata", (req, res) => {
   res.json({ username: req.session.user_name, role: req.session.user_role });
 });
 
-//Route to Destroy Session and Logout
+// Route to Destroy Session and Logout
 app.post("/logout", (req, res) => {
-  req.session.destroy();
-  res.send("Logged Out");
+  req.session.destroy((err) => {
+    if (err) {
+      return res.send("Error logging out");
+    }
+    res.send("Logged Out");
+  });
 });
 
 // Serve static files from the uploads folder
@@ -204,19 +206,9 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 
-// Cookie session setup
-app.use(
-  cookieSession({
-    name: "session",
-    keys: ["tolet"],
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  })
-);
-
 // Use routes
 app.use("/auth", authRoute);
-app.use("/contact", contactRoute);
-// app.use("/blogs", blogRoutes);
+app.use("/", contactRoute);
 app.use("/property", propertyRoute);
 
 const port = process.env.PORT || 3002;

@@ -67,15 +67,15 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-router.delete("/:id",async (req, res) => {
-   try {
-     // Fetch all blogs from the database
-      await Blog.findByIdAndDelete({ _id: req.params.id });
-     // Respond with the fetched blogs as JSON
-     res.status(200).json({ message: "Blog is deleted successfully" });
-   } catch (error) {
-     res.status(500).json({ message: error });
-   }
+router.delete("/:id", async (req, res) => {
+  try {
+    // Fetch all blogs from the database
+    await Blog.findByIdAndDelete({ _id: req.params.id });
+    // Respond with the fetched blogs as JSON
+    res.status(200).json({ message: "Blog is deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
 });
 
 // Route to fetch all blog posts

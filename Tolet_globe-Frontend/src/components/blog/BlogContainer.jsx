@@ -16,6 +16,8 @@ function BlogContainer() {
 
   const [currentPg, setCurrentPg] = useState(1);
 
+  const [updateLikes, setUpdateLikes] = useState(false);
+
   async function getDataFromBackend() {
     const allBlogs = await axios.get("/blogs");
     setBackendData(allBlogs.data.reverse());
@@ -23,7 +25,7 @@ function BlogContainer() {
 
   useEffect(() => {
     getDataFromBackend();
-  }, []);
+  }, [updateLikes]);
 
   const handleClickLatest = () => {
     getDataFromBackend();
@@ -80,6 +82,8 @@ function BlogContainer() {
             likes={datapt.likes}
             date={datapt.date}
             intro={datapt.intro}
+            updateLikes={updateLikes}
+            setUpdateLikes={setUpdateLikes}
           />
         ))}
       </div>

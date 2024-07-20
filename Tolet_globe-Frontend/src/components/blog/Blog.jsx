@@ -8,6 +8,7 @@ import "../../style/blog/Blog.css";
 // import axios from "axios";
 // require("dotenv").config({ path: ".env" });
 import axios from "./axiosConfig";
+import NavBar from "../NavBar";
 
 // Component to Display a Single Blog
 function Blog() {
@@ -16,6 +17,8 @@ function Blog() {
   console.log(process.env.REACT_APP_API_URL);
 
   const [backendData, setBackendData] = useState([{}]);
+
+  const []=useState()
 
   useEffect(() => {
     async function getDataFromBackend() {
@@ -26,7 +29,8 @@ function Blog() {
   }, []);
 
   return (
-    <div>
+    <>
+      <NavBar />
       <div className="container" id="blogContainer">
         <DateCategory date={backendData.date} category={backendData.category} />
         <h1 className="my-3">{backendData.title}</h1>
@@ -79,7 +83,7 @@ function Blog() {
           </a>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
