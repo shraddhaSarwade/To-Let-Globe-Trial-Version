@@ -42,7 +42,10 @@ const Register = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    const response = await axios.post("/register", formData);
+    const response = await axios.post(
+      process.env.REACT_APP_API_URL + "/register",
+      formData
+    );
     alert("Registration Successful!");
     navigate("/blogs");
   };

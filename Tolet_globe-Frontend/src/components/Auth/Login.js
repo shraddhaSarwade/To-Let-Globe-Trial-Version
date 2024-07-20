@@ -37,7 +37,7 @@ const Login = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     await axios
-      .post("/login", loginData)
+      .post(process.env.REACT_APP_API_URL + "/login", loginData)
       .then((response) => {
         console.log(response.data.isLogin);
         if (response.data.isLogin === false) {

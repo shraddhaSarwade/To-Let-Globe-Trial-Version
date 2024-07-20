@@ -12,6 +12,7 @@ const path = require("path");
 const multer = require("multer");
 const { storage } = require("./cloudinary");
 const session = require("express-session");
+const bcrypt = require("bcrypt");
 
 const app = express();
 
@@ -20,6 +21,9 @@ const Blog = require("./models/blogs");
 const User = require("./models/user");
 
 const mongoDBURL = process.env.DB_URL;
+
+//const mongoDBURL =
+//("mongodb+srv://root:root@cluster0.y4s7zpb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 
 mongoose
   .connect(mongoDBURL)
@@ -68,7 +72,7 @@ app.get("/blogs", async (req, res) => {
 // Route for Registering
 app.post("/register", async (req, res) => {
   const { username, email, password, role } = req.body;
-
+  console.log(req.body);
   // bcrypt to hash the password
   const hash = await bcrypt.hash(password, 12);
   const newUser = new User({
@@ -97,7 +101,9 @@ app.post("/register", async (req, res) => {
 // Route for Logging In
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body);
   const user = await User.findOne({ email: email });
+  console.log("User exist - ", user);
   if (!user) {
     res.json({ isLogin: false });
   } else {
