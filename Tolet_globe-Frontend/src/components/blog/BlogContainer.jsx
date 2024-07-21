@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useState, useEffect, useContext } from "react";
 import "../../style/blog/BlogContanier.css";
 // import BlogCard from "./BlogCard";

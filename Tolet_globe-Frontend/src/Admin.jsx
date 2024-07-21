@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import Adminblog from "./components/Adminblog";

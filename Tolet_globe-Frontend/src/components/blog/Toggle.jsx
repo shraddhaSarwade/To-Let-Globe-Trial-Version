@@ -14,7 +14,7 @@ function Toggle({ isLatest, handleClickLatest, handleClickTrending }) {
       .post("/createBlog/auth")
       .then((response) => {
         console.log("value of isAuth recd :", response.data);
-        if (response.data.isAuth === true) {
+        if (response.data.isAuth === false) {
           navigate("/createBlog");
         } else {
           alert("Please login as Content Creator to post a Blog!");
@@ -46,7 +46,7 @@ function Toggle({ isLatest, handleClickLatest, handleClickTrending }) {
           </div>
         </div>
       </div>
-      <div className="col" id="togglecontainer2">
+      {/* <div className="col" id="togglecontainer2">
         <a
           type="button"
           className="btn custom btn-lg"
@@ -55,7 +55,7 @@ function Toggle({ isLatest, handleClickLatest, handleClickTrending }) {
         >
           Create Blog
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { NavLink, useLocation } from "react-router-dom";
 import Logo from "../assets/img/Favicon.png";
 import { useState, useEffect } from "react";
@@ -12,7 +13,7 @@ const NavBar = () => {
     await axios
       .post("/logInStatus")
       .then((response) => {
-        console.log(response.log);
+        console.log(response);
         if (response.data.isLoggedIn) {
           setIsLoggedIn(true);
         } else {

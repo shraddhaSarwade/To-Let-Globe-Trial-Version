@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 //import Layout from "../Layout/Layout.jsx";
@@ -40,7 +41,7 @@ const Login = () => {
     await axios
       .post("/login", loginData)
       .then((response) => {
-        console.log(response.data.isLogin);
+        console.log("Logged In",response.data);
         if (response.data.isLogin === false) {
           alert("Invalid Credentials! Please Try Again");
         } else {

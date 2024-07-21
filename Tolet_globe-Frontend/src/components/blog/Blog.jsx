@@ -110,7 +110,7 @@ function Blog() {
           </div>
           <div className="col-2">
             <span className="text-decoration-underline text-right" id="read">
-              6 min read
+              6 min ago
             </span>
           </div>
         </div>
